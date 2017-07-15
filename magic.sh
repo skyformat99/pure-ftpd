@@ -24,11 +24,10 @@ run () {
 	mv /etc/localtime /etc/localtime-old && \
 	ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime && \
 # 
-    MY_IP=$(curl ifconfig.me) \
 	echo "[supervisord]" >> ${SUPERVISORD_CONFIG} && \
     echo "nodaemon=true" >> ${SUPERVISORD_CONFIG} && \
 	echo "[program:ftp]" >> ${SUPERVISORD_CONFIG} && \
-	echo "command=/usr/sbin/pure-ftpd -c 50 -C 10 -l unix -E -A -j -R -P $MY_IP -p ${FTP_B_PORT} -S ${FTP_A_PORT}" >> ${SUPERVISORD_CONFIG} && \
+	echo "command=/usr/sbin/pure-ftpd -c 50 -C 10 -l unix -E -A -j -R -p ${FTP_B_PORT} -S ${FTP_A_PORT}" >> ${SUPERVISORD_CONFIG} && \
 	echo "autorestart = true" >> ${SUPERVISORD_CONFIG} && \
 	echo ${USERNAME}:${PASSWORD} | chpasswd && \
 	/usr/bin/supervisord -n
